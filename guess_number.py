@@ -3,10 +3,11 @@ import random
 #Генерируется рандомное число
 
 def randomNumber():
-    hiddenNumber = random.randint(1, 10)
+    a = int(input("Укажите диапазон загаданного числа: "))
+    hiddenNumber = random.randint(1, a)
     return hiddenNumber
 
-hideNumber = randomNumber()
+# hideNumber = randomNumber()
 
 #Изменяет имя
 
@@ -18,7 +19,7 @@ def changeName():
 
 def startGame():
     print("Игра начинается")
-    hNumber = hideNumber
+    hNumber = randomNumber()
     namePerson = changeName()
     namePerson = namePerson.replace(" ", "")
     if len(namePerson) != 0:
@@ -49,7 +50,7 @@ def contGame():
 
 def guessNumber(hideNumber, namePerson):
     finishRound = False
-    attemptCounter = 0
+    attemptCounter = 1
 
     while finishRound == False:
         print(hideNumber)
@@ -69,17 +70,20 @@ def guessNumber(hideNumber, namePerson):
 
         if hideNumber == number:
             print("Вы угадали число")
-            print(namePerson, "ваше число", hideNumber)
+            print(namePerson, "ваше число", hideNumber, "количество попыток: ", attemptCounter)
+            with open("person.txt", "w") as file:
+                file.write(f"Name: {namePerson}\n")
+                file.write(f"Attempts: {attemptCounter}\n")
             finishRound = contGame()
             if finishRound == False:
                 guessNumber(randomNumber(), namePerson) 
         else:
             attemptCounter += 1
-            if attemptCounter == 3:
-                endGame = input("Желаете закончить игру? ")
-                if endGame.lower() == "yes" or endGame.lower() == "да":
-                    print("Игра завершена")
-                    finishRound = True
-                attemptCounter = 0
+            # if attemptCounter == 3:
+            #     endGame = input("Желаете закончить игру? ")
+            #     if endGame.lower() == "yes" or endGame.lower() == "да":
+            #         print("Игра завершена")
+            #         finishRound = True
+            #     attemptCounter = 0
 
 startGame()
